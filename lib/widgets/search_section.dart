@@ -1,4 +1,5 @@
 import 'package:fetch/constants/colors.dart';
+import 'package:fetch/services/chat.dart';
 import 'package:fetch/widgets/search_bar_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,7 +78,9 @@ class _SearchSectionState extends State<SearchSection> {
                     ),
                     const Spacer(),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        ChatWebService().chat(queryController.text.trim());
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(9),
                         decoration: BoxDecoration(

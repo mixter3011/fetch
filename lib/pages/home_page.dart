@@ -1,4 +1,5 @@
 import 'package:fetch/constants/colors.dart';
+import 'package:fetch/services/chat.dart';
 import 'package:fetch/widgets/search_section.dart';
 import 'package:fetch/widgets/side_bar.dart';
 import 'package:flutter/foundation.dart';
@@ -12,9 +13,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String response = "";
   @override
   void initState() {
     super.initState();
+    ChatWebService().connect();
   }
 
   @override
@@ -30,6 +33,18 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   const Expanded(
                     child: SearchSection(),
+                  ),
+                  StreamBuilder(
+                    stream: ChatWebService().contentStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      response += snapshot.data?['data'] ?? '';
+                      return Text(response);
+                    },
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 16),
