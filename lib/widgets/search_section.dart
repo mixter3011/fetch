@@ -1,4 +1,5 @@
 import 'package:fetch/constants/colors.dart';
+import 'package:fetch/pages/chat_page.dart';
 import 'package:fetch/services/chat.dart';
 import 'package:fetch/widgets/search_bar_button.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,11 @@ class _SearchSectionState extends State<SearchSection> {
         Text(
           'Where knowledge begins',
           style: GoogleFonts.ibmPlexMono(
-              fontSize: 40,
-              fontWeight: FontWeight.w400,
-              height: 1.2,
-              letterSpacing: -0.5,
-              color: Colors.white),
+            fontSize: 40,
+            fontWeight: FontWeight.w400,
+            height: 1.2,
+            letterSpacing: -0.5,
+          ),
         ),
         const SizedBox(height: 32),
         Container(
@@ -80,6 +81,12 @@ class _SearchSectionState extends State<SearchSection> {
                     GestureDetector(
                       onTap: () {
                         ChatWebService().chat(queryController.text.trim());
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ChatPage(question: queryController.text.trim()),
+                          ),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(9),

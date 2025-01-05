@@ -8,15 +8,15 @@ tavily_client = TavilyClient(api_key=settings.TAVILY_API_KEY)
 class SearchService:
     def web_search(self, query: str):
         try:
-            links = []
-            res = tavily_client.search(query, max_results=10)
-            results = res.get("results", [])
+            results = []
+            response = tavily_client.search(query, max_results=10)
+            search_results = response.get("results", [])
         
-            for result in results:
+            for result in search_results:
                 received = trafilatura.fetch_url(result.get("url"))
                 content = trafilatura.extract(received, include_comments = False)
             
-                links.append(
+                results.append(
                     {
                         "title": result.get("title", ""),
                         "url": result.get("url", ""),
@@ -24,6 +24,6 @@ class SearchService:
                     }
                 )
             
-            return links
+            return results
         except Exception as e:
             print(e)
